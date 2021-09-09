@@ -110,7 +110,7 @@ function getInputEllipsoids() {
 //get the input triangles from the standard class URL
 function getInputTriangles() {
     const INPUT_TRIANGLES_URL = 
-        "https://ncsucgclass.github.io/prog1/triangles.json";
+        "https://ncsucgclass.github.io/prog1/triangles2.json";
         
     // load the triangles file
     var httpReq = new XMLHttpRequest(); // a new http request
@@ -274,8 +274,9 @@ function drawRandPixelsInInputTriangles(context) {
             	for (var p=0; p<numTrianglePixels; p++) {
                     var point; // on canvas plane
             		var triangleTest = 0;
+                    var alreadyDrawnPoints = 0;
             		while (triangleTest == 0 ){ //if the pixel outside the triangle
-                  
+                        alreadyDrawnPoints++;
             			point = [Math.floor(Math.random()*w), Math.floor(Math.random()*h)];
                     	// plane checking
             			
@@ -285,6 +286,8 @@ function drawRandPixelsInInputTriangles(context) {
                     	
                     	if((t1==t2)&&(t2==t3)) // draw the pixel if inside the triangle
                     		triangleTest = 1;
+                        else if (alreadyDrawnPoints>500)
+                            triangleTest = 1; // don't try too hard if there is too many points
             		}
             		drawPixel(imagedata,point[0],point[1],c);
                 	//console.log("color: ("+c.r+","+c.g+","+c.b+")");
