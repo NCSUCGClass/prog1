@@ -397,7 +397,7 @@ function drawUnlitTriangles(context) {
                     //console.log("number of triangles in this files: " + tn);
                     
                     // Loop over the triangles
-                    
+                    var cdis = 10000;
         	        for(var t=0; t<tn; t++){
                         var vertex1 = inputTriangles[f].triangles[t][0];
         		        var vertex2 = inputTriangles[f].triangles[t][1];
@@ -443,11 +443,16 @@ function drawUnlitTriangles(context) {
                             var NORM2 = [( IB[1] * CB[2] - IB[2] * CB[1]), (IB[2] * CB[0] - IB[0] * CB[2]), (IB[0] * CB[1] - IB[1] * CB[0])];
                             var NORM3 = [( IC[1] * AC[2] - IC[2] * AC[1]), (IC[2] * AC[0] - IC[0] * AC[2]), (IC[0] * AC[1] - IC[1] * AC[0])];
                             
-                            var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]);
-                            var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]);
-                            var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]);
-                            if (sign1==sign2==sign3){
-                                
+                            var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]));
+                            var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
+                            var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
+                            if (sign1 == sign2 == sign3){
+                                if(distance >= 1){
+                                    if(distance < cdis){
+                                        cdis = distance;
+                                        drawPixel(imagedata,point[f],point[g],c);
+                                    }//end if distance < cdis
+                                }//end if distance is >=1
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
                     }//end for triangles
