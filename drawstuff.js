@@ -469,7 +469,7 @@ function main() {
     var context = canvas.getContext("2d");
  
     // Create the image
-    //drawRandPixels(context);
+    drawRandPixels(context);
       // shows how to draw pixels
     
     //drawRandPixelsInInputEllipsoids(context);
@@ -484,7 +484,7 @@ function main() {
     //drawInputTrainglesUsingPaths(context);
     // shows how to read input file, but not how to draw pixels
     
-    drawUnlitTriangles(context);
+    //drawUnlitTriangles(context);
     // Draws unlit triangle (work in progress)
     
 }
