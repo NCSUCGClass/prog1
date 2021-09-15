@@ -429,6 +429,7 @@ function drawUnlitTriangles(context) {
                         var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
                         var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
                         var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
+                        drawPixel(imagedata,f,g,c);
                         if (check != 0) {
                             var NORMe = (NORM[0]*eye[0]) + (NORM[1]*eye[1]) + (NORM[2]*eye[2]);
                             var distance = (d-NORMe)/check;
@@ -449,9 +450,9 @@ function drawUnlitTriangles(context) {
                             var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]));
                             var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
                             var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
-                            if (sign1 == sign2 == sign3){
-                                drawPixel(imagedata,f,g,c);
-                            }//end if pixel intersects triangle
+//                             if (sign1 == sign2 == sign3){
+//                                 drawPixel(imagedata,f,g,c);
+//                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
                     }//end for triangles
                 }//end for files
