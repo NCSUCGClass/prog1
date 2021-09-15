@@ -386,7 +386,7 @@ function drawUnlitTriangles(context) {
                 
                 //calculate the ray from the eye to P, R(t) = E + t(P-E)
                 
-                D = [(PX-eye[0]),(PY-eye[1]),(PZ-eye[2])];
+                var D = [(PX-eye[0]),(PY-eye[1]),(PZ-eye[2])];
                 
                 //check if ray intersects any of the triangles
                 
@@ -399,13 +399,63 @@ function drawUnlitTriangles(context) {
                     // Loop over the triangles
                     
         	        for(var t=0; t<tn; t++){
+                        var vertex1 = inputTriangles[f].triangles[t][0];
+        		        var vertex2 = inputTriangles[f].triangles[t][1];
+        		        var vertex3 = inputTriangles[f].triangles[t][2];
+
+        		        var vertexPos1 = inputTriangles[f].vertices[vertex1];
+        		        var vertexPos2 = inputTriangles[f].vertices[vertex2];
+        		        var vertexPos3 = inputTriangles[f].vertices[vertex3];
+        		        //console.log("vertexPos1 " + vertexPos1);
+        		        //console.log("vertexPos2 " + vertexPos2);
+        		        //console.log("vertexPos3 " + vertexPos3);
                         
+                        c.change(
+            		        inputTriangles[f].material.diffuse[0]*255,
+                	        inputTriangles[f].material.diffuse[1]*255,
+                	        inputTriangles[f].material.diffuse[2]*255,
+                	        255); // triangle diffuse color
+                        
+                        var CA = [(vertexPos1[0]-vertexPos2[0]),(vertexPos1[1]-vertexPos2[1]),(vertexPos1[2]-vertexPos2[2])];
+                        
+                        var BA = [(vertexPos3[0]-vertexPos2[0]),(vertexPos3[1]-vertexPos2[1]),(vertexPos3[2]-vertexPos2[2])];
+                        var CB = [(vertexPos1[0]-vertexPos3[0]),(vertexPos1[1]-vertexPos3[1]),(vertexPos1[2]-vertexPos3[2])];
+                        var AC = [(vertexPos2[0]-vertexPos1[0]),(vertexPos2[1]-vertexPos1[1]),(vertexPos2[2]-vertexPos1[2])];
+                        
+                        
+                        var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
+                        var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
+                        var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
+                        if (check != 0) {
+                            var NORMe = (NORM[0]*eye[0]) + (NORM[1]*eye[1]) + (NORM[2]*eye[2]);
+                            var distance = (d-NORMe)/check;
+                            var IX = eye[0] + D[0]*distance;
+                            var IY = eye[1] + D[1]*distance;
+                            var IZ = eye[2] + D[2]*distance;
+                            
+                            var I = [IX,IY,IZ];
+                            
+                            var IA = [(IX-vertexPos2[0]),(IY-vertexPos2[1]),(IZ-vertexPos2[2])];
+                            var IB = [(IX-vertexPos3[0]),(IY-vertexPos3[1]),(IZ-vertexPos3[2])];
+                            var IC = [(IX-vertexPos1[0]),(IY-vertexPos1[1]),(IZ-vertexPos1[2])];
+                            
+                            var NORM1 = [( IA[1] * BA[2] - IA[2] * BA[1]), (IA[2] * BA[0] - IA[0] * BA[2]), (IA[0] * BA[1] - IA[1] * BA[0])];
+                            var NORM2 = [( IB[1] * CB[2] - IB[2] * CB[1]), (IB[2] * CB[0] - IB[0] * CB[2]), (IB[0] * CB[1] - IB[1] * CB[0])];
+                            var NORM3 = [( IC[1] * AC[2] - IC[2] * AC[1]), (IC[2] * AC[0] - IC[0] * AC[2]), (IC[0] * AC[1] - IC[1] * AC[0])];
+                            
+                            var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]);
+                            var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]);
+                            var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]);
+                            if (sign1==sign2==sign3){
+                                
+                            }//end if pixel intersects triangle
+                        }//end if pixel intersects plane
                     }//end for triangles
                 }//end for files
             }//end Y values
         }//end X values   
     } // end if triangle file found
-} // end draw rand pixels in input triangles
+} // end draw unlit triangle
 
 
 /* main -- here is where execution begins after window load */
