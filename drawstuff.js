@@ -358,14 +358,14 @@ function drawUnlitTriangles(context) {
         var x = 0; var y = 0; // pixel coord init
         var cx = 0; var cy = 0; // init center x and y coord
         var numTrianglePixels = 0; // init num pixels in triangle
-        var c = new Color(55,55,55,55); // init the triangle color
+        var c = new Color(0,0,0,0); // init the triangle color
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
         var UL = [0,1,0];
         var LL = [0,0,0];
         var UR = [1,1,0];
         var LR = [1,0,0];
-        //console.log("number of files: " + n);
+        console.log("number of files: " + n);
 
         // Loop over the pixels
         for (var f=0; f<w; f++) {
