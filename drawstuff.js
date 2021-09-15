@@ -358,30 +358,52 @@ function drawUnlitTriangles(context) {
         var c = new Color(0,0,0,0); // init the triangle color
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
-        var UL = [0,0.5,0];
+        var UL = [0,1,0];
         var LL = [0,0,0];
-        var UR = [0.5,0.5,0];
-        var LR = [0.5,0,0];
+        var UR = [1,1,0];
+        var LR = [1,0,0];
         //console.log("number of files: " + n);
 
         // Loop over the pixels
         for (var f=0; f<w; f++) {
             for (var g=0; g<h; g++) {
-                //calculate screen pixel's location in space
-                s = g/(h-1)
-                t = f/(w-1)
-                PLX = UL[0] - s(LL[0]-UL[0])
-                PRX = UR[0] - s(LR[0]-UR[0])
-                PX = PLX + t(PRX-PLX) 
+                //calculate screen pixel's location in simulated space
+                var s = g/(h-1);
+                var t = f/(w-1);
+                var PLX = UL[0] - s(LL[0]-UL[0]);
+                var PRX = UR[0] - s(LR[0]-UR[0]);
+                var PX = PLX + t(PRX-PLX);
                 
-                PLY = UL[1] - s(LL[1]-UL[1])
-                PRY = UR[1] - s(LR[1]-UR[1])
-                PY = PLY + t(PRY-PLY) 
+                var PLY = UL[1] - s(LL[1]-UL[1]);
+                var PRY = UR[1] - s(LR[1]-UR[1]);
+                var PY = PLY + t(PRY-PLY);
                 
-                PLZ = UL[2] - s(LL[2]-UL[2])
-                PRZ = UR[2] - s(LR[2]-UR[2])
-                PZ = PLZ + t(PRZ-PLZ) 
-       
+                var PLZ = UL[2] - s(LL[2]-UL[2]);
+                var PRZ = UR[2] - s(LR[2]-UR[2]);
+                var PZ = PLZ + t(PRZ-PLZ);
+                
+                var P = [PX,PY,PZ];
+                
+                //calculate the ray from the eye to P, R(t) = E + t(P-E)
+                
+                D = [(PX-eye[0]),(PY-eye[1]),(PZ-eye[2])];
+                
+                //check if ray intersects any of the triangles
+                
+                //loop over input files
+                for (var f=0; f<n; f++) {
+                    var tn = inputTriangles[f].triangles.length;
+                    
+                    //console.log("number of triangles in this files: " + tn);
+                    
+                    // Loop over the triangles
+                    
+        	        for(var t=0; t<tn; t++){
+                        
+                    }//end for triangles
+                }//end for files
+            }//end Y values
+        }//end X values   
     } // end if triangle file found
 } // end draw rand pixels in input triangles
 
