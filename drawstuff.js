@@ -110,7 +110,7 @@ function getInputEllipsoids() {
 //get the input triangles from the standard class URL
 function getInputTriangles() {
     const INPUT_TRIANGLES_URL = 
-        "https://ncsucgclass.github.io/prog1/triangles.json";
+        "https://ncsucgclass.github.io/prog1/triangles2.json";
         
     // load the triangles file
     var httpReq = new XMLHttpRequest(); // a new http request
@@ -454,7 +454,8 @@ function drawUnlitTriangles(context) {
                     }//end for triangles
                 }//end for files
             }//end Y values
-        }//end X values   
+        }//end X values 
+        context.putImageData(imagedata, 0, 0);
     } // end if triangle file found
 } // end draw unlit triangle
 
