@@ -447,7 +447,7 @@ function drawUnlitTriangles(context) {
                             var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
                             if (sign1 == sign2 == sign3){
                                 if(distance >= 1){
-                                    drawPixel(imagedata,point[f],point[g],c);
+                                    drawPixel(imagedata,f,g,c);
                                 }//end if distance is >=1
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
@@ -469,7 +469,7 @@ function main() {
     var context = canvas.getContext("2d");
  
     // Create the image
-    drawRandPixels(context);
+    //drawRandPixels(context);
       // shows how to draw pixels
     
     //drawRandPixelsInInputEllipsoids(context);
@@ -484,7 +484,7 @@ function main() {
     //drawInputTrainglesUsingPaths(context);
     // shows how to read input file, but not how to draw pixels
     
-    //drawUnlitTriangles(context);
+    drawUnlitTriangles(context);
     // Draws unlit triangle (work in progress)
     
 }
