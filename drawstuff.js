@@ -452,7 +452,7 @@ function drawUnlitTriangles(context) {
                             console.log("sign value 1: " + sign1);
                             console.log("sign value 2 " + sign2);
                             console.log("sign value 3 " + sign3);
-                            if (sign1 == sign2 == sign3){
+                            if (sign1 == sign2 && sign2 == sign3){
                                 drawPixel(imagedata,f,g,c);
                                 console.log("pixel successfully drawn");
                             }//end if pixel intersects triangle
