@@ -374,17 +374,17 @@ function drawUnlitTriangles(context) {
                 //calculate screen pixel's location in simulated space
                 var s = g/(h-1);
                 var t = f/(w-1);
-                var PLX = UL[0] - s(LL[0]-UL[0]);
-                var PRX = UR[0] - s(LR[0]-UR[0]);
-                var PX = PLX + t(PRX-PLX);
+                var PLX = UL[0] - s*(LL[0]-UL[0]);
+                var PRX = UR[0] - s*(LR[0]-UR[0]);
+                var PX = PLX + t*(PRX-PLX);
                 
-                var PLY = UL[1] - s(LL[1]-UL[1]);
-                var PRY = UR[1] - s(LR[1]-UR[1]);
-                var PY = PLY + t(PRY-PLY);
+                var PLY = UL[1] - s*(LL[1]-UL[1]);
+                var PRY = UR[1] - s*(LR[1]-UR[1]);
+                var PY = PLY + t*(PRY-PLY);
                 
-                var PLZ = UL[2] - s(LL[2]-UL[2]);
-                var PRZ = UR[2] - s(LR[2]-UR[2]);
-                var PZ = PLZ + t(PRZ-PLZ);
+                var PLZ = UL[2] - s*(LL[2]-UL[2]);
+                var PRZ = UR[2] - s*(LR[2]-UR[2]);
+                var PZ = PLZ + t*(PRZ-PLZ);
                 
                 var P = [PX,PY,PZ];
                 console.log("pixel location in simulated space: " + P);
