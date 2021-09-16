@@ -413,11 +413,11 @@ function drawUnlitTriangles(context) {
         		        //console.log("vertexPos2 " + vertexPos2);
         		        //console.log("vertexPos3 " + vertexPos3);
                         
-//                         c.change(
-//             		        inputTriangles[f].material.diffuse[0]*255,
-//                 	        inputTriangles[f].material.diffuse[1]*255,
-//                 	        inputTriangles[f].material.diffuse[2]*255,
-//                 	        255); // triangle diffuse color
+                        c.change(
+            		        inputTriangles[f].material.diffuse[0]*255,
+                	        inputTriangles[f].material.diffuse[1]*255,
+                	        inputTriangles[f].material.diffuse[2]*255,
+                	        255); // triangle diffuse color
                         
                         var CA = [(vertexPos1[0]-vertexPos2[0]),(vertexPos1[1]-vertexPos2[1]),(vertexPos1[2]-vertexPos2[2])];
                         
