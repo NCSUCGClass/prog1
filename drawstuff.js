@@ -370,7 +370,6 @@ function drawUnlitTriangles(context) {
         // Loop over the pixels
         for (var f=0; f<w; f++) {
             for (var g=0; g<h; g++) {
-                drawPixel(imagedata,f,g,c);
                 //calculate screen pixel's location in simulated space
                 var s = g/(h-1);
                 var t = f/(w-1);
@@ -409,9 +408,9 @@ function drawUnlitTriangles(context) {
         		        var vertexPos1 = inputTriangles[f].vertices[vertex1];
         		        var vertexPos2 = inputTriangles[f].vertices[vertex2];
         		        var vertexPos3 = inputTriangles[f].vertices[vertex3];
-        		        //console.log("vertexPos1 " + vertexPos1);
-        		        //console.log("vertexPos2 " + vertexPos2);
-        		        //console.log("vertexPos3 " + vertexPos3);
+        		        console.log("vertexPos1 " + vertexPos1);
+        		        console.log("vertexPos2 " + vertexPos2);
+        		        console.log("vertexPos3 " + vertexPos3);
                         
                         c.change(
             		        inputTriangles[f].material.diffuse[0]*255,
