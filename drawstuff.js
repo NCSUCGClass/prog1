@@ -110,7 +110,7 @@ function getInputEllipsoids() {
 //get the input triangles from the standard class URL
 function getInputTriangles() {
     const INPUT_TRIANGLES_URL = 
-        "https://ncsucgclass.github.io/prog1/triangles.json";
+        "https://ncsucgclass.github.io/prog1/triangles2.json";
         
     // load the triangles file
     var httpReq = new XMLHttpRequest(); // a new http request
@@ -483,13 +483,13 @@ function main() {
     //drawInputEllipsoidsUsingArcs(context);
       // shows how to read input file, but not how to draw pixels
     
-    //drawRandPixelsInInputTriangles(context);
+    drawRandPixelsInInputTriangles(context);
     // shows how to draw pixels and read input file
     
     //drawInputTrainglesUsingPaths(context);
     // shows how to read input file, but not how to draw pixels
     
-    drawUnlitTriangles(context);
+    //drawUnlitTriangles(context);
     // Draws unlit triangle (work in progress)
     
 }
