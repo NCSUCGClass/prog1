@@ -371,6 +371,7 @@ function drawUnlitTriangles(context) {
         for (var e=0; e<w; e++) {
             for (var g=0; g<h; g++) {
                 //calculate screen pixel's location in simulated space
+                drawPixel(imagedata,e,g,c);
                 var s = g/(h-1);
                 var t = e/(w-1);
                 var PLX = UL[0] - s*(LL[0]-UL[0]);
