@@ -412,7 +412,6 @@ function drawUnlitTriangles(context) {
                 	        inputTriangles[f].material.diffuse[1]*255,
                 	        inputTriangles[f].material.diffuse[2]*255,
                 	        255); // triangle diffuse color
-                        console.log("triangle color " + c); 
                         var CA = [(vertexPos1[0]-vertexPos2[0]),(vertexPos1[1]-vertexPos2[1]),(vertexPos1[2]-vertexPos2[2])];
                         
                         var BA = [(vertexPos3[0]-vertexPos2[0]),(vertexPos3[1]-vertexPos2[1]),(vertexPos3[2]-vertexPos2[2])];
