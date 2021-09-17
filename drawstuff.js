@@ -365,7 +365,7 @@ function drawUnlitTriangles(context) {
         var LL = [0,0,0];
         var UR = [1,1,0];
         var LR = [1,0,0];
-        console.log("number of files: " + n);
+        //console.log("number of files: " + n);
 
         // Loop over the pixels
         for (var e=0; e<w; e++) {
@@ -386,7 +386,7 @@ function drawUnlitTriangles(context) {
                 var PZ = PLZ + t*(PRZ-PLZ);
                 
                 var P = [PX,PY,PZ];
-                console.log("pixel location in simulated space: " + P);
+                //console.log("pixel location in simulated space: " + P);
                 //calculate the ray from the eye to P, R(t) = E + t(P-E)
                 
                 var D = [(PX-eye[0]),(PY-eye[1]),(PZ-eye[2])];
@@ -408,9 +408,9 @@ function drawUnlitTriangles(context) {
         		        var vertexPos1 = inputTriangles[f].vertices[vertex1];
         		        var vertexPos2 = inputTriangles[f].vertices[vertex2];
         		        var vertexPos3 = inputTriangles[f].vertices[vertex3];
-        		        console.log("vertexPos1 " + vertexPos1);
-        		        console.log("vertexPos2 " + vertexPos2);
-        		        console.log("vertexPos3 " + vertexPos3);
+        		        //console.log("vertexPos1 " + vertexPos1);
+        		        //console.log("vertexPos2 " + vertexPos2);
+        		        //console.log("vertexPos3 " + vertexPos3);
                         
                         c.change(
             		        inputTriangles[f].material.diffuse[0]*255,
@@ -448,12 +448,12 @@ function drawUnlitTriangles(context) {
                             var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]));
                             var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
                             var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
-                            console.log("sign value 1: " + sign1);
-                            console.log("sign value 2 " + sign2);
-                            console.log("sign value 3 " + sign3);
+                            //console.log("sign value 1: " + sign1);
+                            //console.log("sign value 2 " + sign2);
+                            //console.log("sign value 3 " + sign3);
                             if (sign1 == sign2 && sign2 == sign3){
                                 drawPixel(imagedata,e,g,c);
-                                console.log("pixel successfully drawn");
+                                //console.log("pixel successfully drawn");
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
                     }//end for triangles
