@@ -368,11 +368,11 @@ function drawUnlitTriangles(context) {
         console.log("number of files: " + n);
 
         // Loop over the pixels
-        for (var f=0; f<w; f++) {
+        for (var e=0; e<w; e++) {
             for (var g=0; g<h; g++) {
                 //calculate screen pixel's location in simulated space
                 var s = g/(h-1);
-                var t = f/(w-1);
+                var t = e/(w-1);
                 var PLX = UL[0] - s*(LL[0]-UL[0]);
                 var PRX = UR[0] - s*(LR[0]-UR[0]);
                 var PX = PLX + t*(PRX-PLX);
@@ -452,7 +452,7 @@ function drawUnlitTriangles(context) {
                             console.log("sign value 2 " + sign2);
                             console.log("sign value 3 " + sign3);
                             if (sign1 == sign2 && sign2 == sign3){
-                                drawPixel(imagedata,f,g,c);
+                                drawPixel(imagedata,e,g,c);
                                 console.log("pixel successfully drawn");
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
