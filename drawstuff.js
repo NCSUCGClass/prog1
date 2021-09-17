@@ -351,13 +351,8 @@ function drawUnlitTriangles(context) {
     var w = context.canvas.width;
     var h = context.canvas.height;
     var imagedata = context.createImageData(w,h);
-    const PIXEL_DENSITY = 0.1;
-    var numCanvasPixels = (w*h)*PIXEL_DENSITY; 
     
     if (inputTriangles != String.null) { 
-        var x = 0; var y = 0; // pixel coord init
-        var cx = 0; var cy = 0; // init center x and y coord
-        var numTrianglePixels = 0; // init num pixels in triangle
         var c = new Color(255,255,255,255); // init the triangle color
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
@@ -417,7 +412,7 @@ function drawUnlitTriangles(context) {
                 	        inputTriangles[f].material.diffuse[1]*255,
                 	        inputTriangles[f].material.diffuse[2]*255,
                 	        255); // triangle diffuse color
-                        
+                        console.log("triangle color " + c); 
                         var CA = [(vertexPos1[0]-vertexPos2[0]),(vertexPos1[1]-vertexPos2[1]),(vertexPos1[2]-vertexPos2[2])];
                         
                         var BA = [(vertexPos3[0]-vertexPos2[0]),(vertexPos3[1]-vertexPos2[1]),(vertexPos3[2]-vertexPos2[2])];
