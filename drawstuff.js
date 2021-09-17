@@ -353,7 +353,7 @@ function drawUnlitTriangles(context) {
     var imagedata = context.createImageData(w,h);
     
     if (inputTriangles != String.null) { 
-        var c = new Color(0,0,0,0); // init the triangle color
+        var c = new Color(0,0,0,255); // init the triangle color
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
         var UL = [0,1,0];
