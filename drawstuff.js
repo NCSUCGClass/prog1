@@ -371,7 +371,6 @@ function drawUnlitTriangles(context) {
         for (var e=0; e<w; e++) {
             for (var g=0; g<h; g++) {
                 //calculate screen pixel's location in simulated space
-                drawPixel(imagedata,e,g,c);
                 var s = g/(h-1);
                 var t = e/(w-1);
                 var PLX = UL[0] - s*(LL[0]-UL[0]);
@@ -429,6 +428,7 @@ function drawUnlitTriangles(context) {
                         var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
                         var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
                         var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
+                        drawPixel(imagedata,e,g,c);
                         if (check != 0) {
                             var NORMe = (NORM[0]*eye[0]) + (NORM[1]*eye[1]) + (NORM[2]*eye[2]);
                             var distance = (d-NORMe)/check;
