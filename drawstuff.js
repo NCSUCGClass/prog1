@@ -408,11 +408,7 @@ function drawUnlitTriangles(context) {
         		        //console.log("vertexPos2 " + vertexPos2);
         		        //console.log("vertexPos3 " + vertexPos3);
                         
-                        c.change(
-            		        inputTriangles[f].material.diffuse[0]*255,
-                	        inputTriangles[f].material.diffuse[1]*255,
-                	        inputTriangles[f].material.diffuse[2]*255,
-                	        255); // triangle diffuse color
+                        
                         var CA = [(vertexPos1[0]-vertexPos2[0]),(vertexPos1[1]-vertexPos2[1]),(vertexPos1[2]-vertexPos2[2])];
                         
                         var BA = [(vertexPos3[0]-vertexPos2[0]),(vertexPos3[1]-vertexPos2[1]),(vertexPos3[2]-vertexPos2[2])];
@@ -447,6 +443,11 @@ function drawUnlitTriangles(context) {
                             //console.log("sign value 2 " + sign2);
                             //console.log("sign value 3 " + sign3);
                             if (sign1 == sign2 && sign2 == sign3){
+                                c.change(
+            		                inputTriangles[f].material.diffuse[0]*255,
+                	                inputTriangles[f].material.diffuse[1]*255,
+                	                inputTriangles[f].material.diffuse[2]*255,
+                	                255); // triangle diffuse color
                                 drawPixel(imagedata,e,g,c);
                                 console.log("pixel successfully drawn");
                             }//end if pixel intersects triangle
