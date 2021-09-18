@@ -490,9 +490,6 @@ function drawUnlitTriangles(context) {
                             // }
                             if (sign1 == sign2 && sign2 == sign3){
                                 if(distance <= closest && distance >= 1){
-                                    if (e == 300 && g == 338){
-                                        console.log("closest: " + closest);
-                                    }
                                     closest = distance;
                                     c.change(
             		                inputTriangles[f].material.diffuse[0]*255,
