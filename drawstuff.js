@@ -346,6 +346,27 @@ function drawInputTrainglesUsingPaths(context) {
     } // end if triangle files found
 } // end draw input triangles
 
+function dotProduct(vect_A, vect_B)
+    {
+   
+        let product = 0;
+        // Loop for calculate cot product
+        for (let i = 0; i < 3; i++)
+            product = product + vect_A[i] * vect_B[i];
+        return product;
+    }
+   
+    // Function to find
+    // cross product of two vector array.
+function crossProduct(vect_A, vect_B, cross_P)
+    {
+   
+        cross_P[0] = vect_A[1] * vect_B[2] - vect_A[2] * vect_B[1];
+        cross_P[1] = vect_A[2] * vect_B[0] - vect_A[0] * vect_B[2];
+        cross_P[2] = vect_A[0] * vect_B[1] - vect_A[1] * vect_B[0];
+    }
+    //“Program for dot product and cross product of two vectors,” GeeksforGeeks, 26-Apr-2021. [Online]. Available: https://www.geeksforgeeks.org/program-dot-product-cross-product-two-vector/. [Accessed: 18-Sep-2021]. 
+
 function drawUnlitTriangles(context) {
     var inputTriangles = getInputTriangles();
     var w = context.canvas.width;
@@ -353,7 +374,8 @@ function drawUnlitTriangles(context) {
     var imagedata = context.createImageData(w,h);
     
     if (inputTriangles != String.null) { 
-        var c = new Color(0,0,0,255); // init the triangle color
+        var c = new Color(0,0,0,0); // init the triangle color
+        var black = new Color(0,0,0,255);
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
         var UL = [0,1,0];
@@ -365,10 +387,10 @@ function drawUnlitTriangles(context) {
         // Loop over the pixels
         for (var e=0; e<w; e++) {
             for (var g=0; g<h; g++) {
-                drawPixel(imagedata,e,g,c);
+                drawPixel(imagedata,e,g,black);
                 //calculate screen pixel's location in simulated space
-                var s = g/(h-1);
-                var t = e/(w-1);
+                var s = g/(h);
+                var t = e/(w);
                 var PLX = UL[0] - s*(LL[0]-UL[0]);
                 var PRX = UR[0] - s*(LR[0]-UR[0]);
                 var PX = PLX + t*(PRX-PLX);
@@ -390,9 +412,13 @@ function drawUnlitTriangles(context) {
                 //check if ray intersects any of the triangles
                 
                 //loop over input files
+                if (e == 20 && g == 30){
+                    console.log("pixel location in simulated space: " + P);
+                    console.log("slope of ray from eye to pixel: " + D);
+                }
                 for (var f=0; f<n; f++) {
                     var tn = inputTriangles[f].triangles.length;
-                    
+                    var closest = 10000000000000000000000000000000;
                     //console.log("number of triangles in this files: " + tn);
                     
                     // Loop over the triangles
@@ -417,7 +443,10 @@ function drawUnlitTriangles(context) {
                         
                         
                         var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
+                        var NORMf = [];
+                        crossProduct(BA,CA,NORMf);
                         var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
+                        var dfunction = dotProduct(NORM,vertexPos2);
                         var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
                         if (check != 0) {
                             var NORMe = (NORM[0]*eye[0]) + (NORM[1]*eye[1]) + (NORM[2]*eye[2]);
@@ -442,14 +471,33 @@ function drawUnlitTriangles(context) {
                             //console.log("sign value 1: " + sign1);
                             //console.log("sign value 2 " + sign2);
                             //console.log("sign value 3 " + sign3);
+                            if (e == 20 && g == 30){
+                                console.log("vertexPos1 " + vertexPos1);
+        		                console.log("vertexPos2 " + vertexPos2);
+        		                console.log("vertexPos3 " + vertexPos3);
+                                console.log("intersection: " + I);
+                                console.log("formula normal: " + NORM);
+                                console.log("function normal " + NORMf);
+                                console.log("d: " + d);
+                                console.log("d function: " + dfunction);
+                                console.log("check: " + check);
+                                console.log("NORMe: " + NORMe);
+                                console.log("distance: " + distance);
+                                console.log("sign value 1: " + sign1);
+                                console.log("sign value 2 " + sign2);
+                                console.log("sign value 3 " + sign3);
+                            }
                             if (sign1 == sign2 && sign2 == sign3){
-                                c.change(
+                                if(distance <= closest){
+                                    closest = distance
+                                    c.change(
             		                inputTriangles[f].material.diffuse[0]*255,
                 	                inputTriangles[f].material.diffuse[1]*255,
                 	                inputTriangles[f].material.diffuse[2]*255,
                 	                255); // triangle diffuse color
                                 drawPixel(imagedata,e,g,c);
                                 console.log("pixel successfully drawn");
+                                }
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
                     }//end for triangles
