@@ -377,14 +377,12 @@ function drawUnlitTriangles(context) {
     if (inputTriangles != String.null) { 
         var c = new Color(0,0,0,0); // init the triangle color
         var black = new Color(0,0,0,255);
-        var pink = new Color(255,16,240,255);
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
         var UL = [0,1,0];
         var LL = [0,0,0];
         var UR = [1,1,0];
         var LR = [1,0,0];
-        //console.log("number of files: " + n);
 
         // Loop over the pixels
         for (var e=0; e<w; e++) {
@@ -406,7 +404,6 @@ function drawUnlitTriangles(context) {
                 var PZ = PLZ + t*(PRZ-PLZ);
                 
                 var P = [PX,PY,PZ];
-                //console.log("pixel location in simulated space: " + P);
                 //calculate the ray from the eye to P, R(t) = E + t(P-E)
                 
                 var D = [(PX-eye[0]),(PY-eye[1]),(PZ-eye[2])];
@@ -414,17 +411,19 @@ function drawUnlitTriangles(context) {
                 //check if ray intersects any of the triangles
                 
                 //loop over input files
-                if (e == 256 && g == 256){
-                    console.log("pixel location in simulated space: " + P);
-                    console.log("slope of ray from eye to pixel: " + D);
-                }
+                var closest = 10000000000000000000000000000000;
                 for (var f=0; f<n; f++) {
                     var tn = inputTriangles[f].triangles.length;
-                    var closest = 10000000000000000000000000000000;
-                    //console.log("number of triangles in this files: " + tn);
                     
+                    //console.log("number of triangles in this files: " + tn);
+                    c.change(0,0,0,255);
                     // Loop over the triangles
         	        for(var t=0; t<tn; t++){
+                        if (e == 300 && g == 338){
+                            console.log(t);
+                            console.log("closest: " + closest);
+                            console.log(" ");
+                        }
                         var vertex1 = inputTriangles[f].triangles[t][0];
         		        var vertex2 = inputTriangles[f].triangles[t][1];
         		        var vertex3 = inputTriangles[f].triangles[t][2];
@@ -445,10 +444,8 @@ function drawUnlitTriangles(context) {
                         
                         
                         var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
-                        var NORMf = crossProduct(BA,CA);
-                        
+
                         var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
-                        var dfunction = dotProduct(NORM,vertexPos2);
                         var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
                         if (check != 0) {
                             var NORMe = (NORM[0]*eye[0]) + (NORM[1]*eye[1]) + (NORM[2]*eye[2]);
@@ -471,45 +468,50 @@ function drawUnlitTriangles(context) {
                             var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
                             var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
 
-                            var sign1function = Math.sign(dotProduct(NORM, crossProduct(IA,BA)));
-                            var sign2function = Math.sign(dotProduct(NORM, crossProduct(IB,CB)));
-                            var sign3function = Math.sign(dotProduct(NORM, crossProduct(IC,AC)));
+
                             //console.log("sign value 1: " + sign1);
                             //console.log("sign value 2 " + sign2);
                             //console.log("sign value 3 " + sign3);
-                            if (e == 256 && g == 256){
-                                drawPixel(imagedata,e,g,pink);
-                                console.log("width: " + w);
-                                console.log("height:" + h);
-                                console.log("vertexPos1 " + vertexPos1);
-        		                console.log("vertexPos2 " + vertexPos2);
-        		                console.log("vertexPos3 " + vertexPos3);
-                                console.log("intersection: " + I);
-                                console.log("formula normal: " + NORM);
-                                console.log("function normal " + NORMf);
-                                console.log("d: " + d);
-                                console.log("d function: " + dfunction);
-                                console.log("check: " + check);
-                                console.log("NORMe: " + NORMe);
-                                console.log("distance: " + distance);
-                                console.log("sign value 1: " + sign1);
-                                console.log("sign function value 1: " + sign1function);
-                                console.log("sign value 2 " + sign2);
-                                console.log("sign function value 2: " + sign2function);
-                                console.log("sign value 3 " + sign3);
-                                console.log("sign function value 3: " + sign3function);
-                            }
+                            // if (e == 300 && g == 338){
+                            //     drawPixel(imagedata,e,g,pink);
+                            //     console.log("width: " + w);
+                            //     console.log("height:" + h);
+                            //     console.log("vertexPos1 " + vertexPos1);
+        		            //     console.log("vertexPos2 " + vertexPos2);
+        		            //     console.log("vertexPos3 " + vertexPos3);
+                            //     console.log("intersection: " + I);
+                            //     console.log("formula normal: " + NORM);
+                            //     console.log("function normal " + NORMf);
+                            //     console.log("d: " + d);
+                            //     console.log("d function: " + dfunction);
+                            //     console.log("check: " + check);
+                            //     console.log("NORMe: " + NORMe);
+                            //     console.log("distance: " + distance);
+                            //     console.log("sign value 1: " + sign1);
+                            //     console.log("sign function value 1: " + sign1function);
+                            //     console.log("sign value 2 " + sign2);
+                            //     console.log("sign function value 2: " + sign2function);
+                            //     console.log("sign value 3 " + sign3);
+                            //     console.log("sign function value 3: " + sign3function);
+                            // }
                             if (sign1 == sign2 && sign2 == sign3){
-                                if(distance <= closest){
-                                    closest = distance
+                                if(distance <= closest && distance >= 1){
+                                    if (e == 300 && g == 338){
+                                        console.log("closest: " + closest);
+                                    }
+                                    closest = distance;
                                     c.change(
             		                inputTriangles[f].material.diffuse[0]*255,
                 	                inputTriangles[f].material.diffuse[1]*255,
                 	                inputTriangles[f].material.diffuse[2]*255,
                 	                255); // triangle diffuse color
                                     drawPixel(imagedata,e,g,c);
-                                    // console.log("pixel location: " + e + "," + g);
-                                    // console.log("pixel successfully drawn");
+                                    if (e == 300 && g == 338){
+                                        console.log("closest: " + closest);
+                                        console.log("distance: " + distance);  
+                                        console.log("triangle: " + vertexPos1);
+                                        console.log(" ");
+                                    }
                                 }
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
