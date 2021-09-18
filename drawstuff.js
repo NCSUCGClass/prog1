@@ -283,6 +283,11 @@ function drawRandPixelsInInputTriangles(context) {
                     	var t1 = ((point[0]-v2[0]) * (v1[1] - v2[1]) - (v1[0] - v2[0]) * (point[1] - v2[1])) < 0.0;
                     	var t2 = ((point[0]-v3[0]) * (v2[1] - v3[1]) - (v2[0] - v3[0]) * (point[1] - v3[1])) < 0.0;
                     	var t3 = ((point[0]-v1[0]) * (v3[1] - v1[1]) - (v3[0] - v1[0]) * (point[1] - v1[1])) < 0.0;
+                    	
+                    	if((t1==t2)&&(t2==t3)) // draw the pixel if inside the triangle
+                    		triangleTest = 1;
+                        else if (alreadyDrawnPoints>500)
+                            triangleTest = 1; // don't try too hard if there is too many points
                     }
             		drawPixel(imagedata,point[0],point[1],c);
                 	//console.log("color: ("+c.r+","+c.g+","+c.b+")");
@@ -353,12 +358,13 @@ function dotProduct(vect_A, vect_B)
    
     // Function to find
     // cross product of two vector array.
-function crossProduct(vect_A, vect_B, cross_P)
+function crossProduct(vect_A, vect_B)
     {
-   
+        cross_P = [];
         cross_P[0] = vect_A[1] * vect_B[2] - vect_A[2] * vect_B[1];
         cross_P[1] = vect_A[2] * vect_B[0] - vect_A[0] * vect_B[2];
         cross_P[2] = vect_A[0] * vect_B[1] - vect_A[1] * vect_B[0];
+        return cross_P;
     }
     //“Program for dot product and cross product of two vectors,” GeeksforGeeks, 26-Apr-2021. [Online]. Available: https://www.geeksforgeeks.org/program-dot-product-cross-product-two-vector/. [Accessed: 18-Sep-2021]. 
 
@@ -371,6 +377,7 @@ function drawUnlitTriangles(context) {
     if (inputTriangles != String.null) { 
         var c = new Color(0,0,0,0); // init the triangle color
         var black = new Color(0,0,0,255);
+        var pink = new Color(255,16,240,255);
         var n = inputTriangles.length; // the number of input files
         var eye = [0.5,0.5,-0.5]; //eye location
         var UL = [0,1,0];
@@ -384,18 +391,18 @@ function drawUnlitTriangles(context) {
             for (var g=0; g<h; g++) {
                 drawPixel(imagedata,e,g,black);
                 //calculate screen pixel's location in simulated space
-                var s = g/(h);
-                var t = e/(w);
-                var PLX = UL[0] - s*(LL[0]-UL[0]);
-                var PRX = UR[0] - s*(LR[0]-UR[0]);
+                var s = g/h;
+                var t = e/w;
+                var PLX = UL[0] + s*(LL[0]-UL[0]);
+                var PRX = UR[0] + s*(LR[0]-UR[0]);
                 var PX = PLX + t*(PRX-PLX);
                 
-                var PLY = UL[1] - s*(LL[1]-UL[1]);
-                var PRY = UR[1] - s*(LR[1]-UR[1]);
+                var PLY = UL[1] + s*(LL[1]-UL[1]);
+                var PRY = UR[1] + s*(LR[1]-UR[1]);
                 var PY = PLY + t*(PRY-PLY);
                 
-                var PLZ = UL[2] - s*(LL[2]-UL[2]);
-                var PRZ = UR[2] - s*(LR[2]-UR[2]);
+                var PLZ = UL[2] + s*(LL[2]-UL[2]);
+                var PRZ = UR[2] + s*(LR[2]-UR[2]);
                 var PZ = PLZ + t*(PRZ-PLZ);
                 
                 var P = [PX,PY,PZ];
@@ -407,7 +414,7 @@ function drawUnlitTriangles(context) {
                 //check if ray intersects any of the triangles
                 
                 //loop over input files
-                if (e == 20 && g == 30){
+                if (e == 256 && g == 256){
                     console.log("pixel location in simulated space: " + P);
                     console.log("slope of ray from eye to pixel: " + D);
                 }
@@ -438,8 +445,8 @@ function drawUnlitTriangles(context) {
                         
                         
                         var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
-                        var NORMf = [];
-                        crossProduct(BA,CA,NORMf);
+                        var NORMf = crossProduct(BA,CA);
+                        
                         var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
                         var dfunction = dotProduct(NORM,vertexPos2);
                         var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
@@ -463,10 +470,17 @@ function drawUnlitTriangles(context) {
                             var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]));
                             var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
                             var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
+
+                            var sign1function = Math.sign(dotProduct(NORM, crossProduct(IA,BA)));
+                            var sign2function = Math.sign(dotProduct(NORM, crossProduct(IB,CB)));
+                            var sign3function = Math.sign(dotProduct(NORM, crossProduct(IC,AC)));
                             //console.log("sign value 1: " + sign1);
                             //console.log("sign value 2 " + sign2);
                             //console.log("sign value 3 " + sign3);
-                            if (e == 20 && g == 30){
+                            if (e == 256 && g == 256){
+                                drawPixel(imagedata,e,g,pink);
+                                console.log("width: " + w);
+                                console.log("height:" + h);
                                 console.log("vertexPos1 " + vertexPos1);
         		                console.log("vertexPos2 " + vertexPos2);
         		                console.log("vertexPos3 " + vertexPos3);
@@ -479,8 +493,11 @@ function drawUnlitTriangles(context) {
                                 console.log("NORMe: " + NORMe);
                                 console.log("distance: " + distance);
                                 console.log("sign value 1: " + sign1);
+                                console.log("sign function value 1: " + sign1function);
                                 console.log("sign value 2 " + sign2);
+                                console.log("sign function value 2: " + sign2function);
                                 console.log("sign value 3 " + sign3);
+                                console.log("sign function value 3: " + sign3function);
                             }
                             if (sign1 == sign2 && sign2 == sign3){
                                 if(distance <= closest){
@@ -490,8 +507,9 @@ function drawUnlitTriangles(context) {
                 	                inputTriangles[f].material.diffuse[1]*255,
                 	                inputTriangles[f].material.diffuse[2]*255,
                 	                255); // triangle diffuse color
-                                drawPixel(imagedata,e,g,c);
-                                console.log("pixel successfully drawn");
+                                    drawPixel(imagedata,e,g,c);
+                                    // console.log("pixel location: " + e + "," + g);
+                                    // console.log("pixel successfully drawn");
                                 }
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
