@@ -286,7 +286,7 @@ function drawRandPixelsInInputTriangles(context) {
                     	
                     	if((t1==t2)&&(t2==t3)) // draw the pixel if inside the triangle
                     		triangleTest = 1;
-                       else if (alreadyDrawnPoints>500)
+                        else if (alreadyDrawnPoints>500)
                             triangleTest = 1; // don't try too hard if there is too many points
                     }
             		drawPixel(imagedata,point[0],point[1],c);
