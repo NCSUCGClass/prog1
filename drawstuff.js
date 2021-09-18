@@ -414,16 +414,10 @@ function drawUnlitTriangles(context) {
                 var closest = 10000000000000000000000000000000;
                 for (var f=0; f<n; f++) {
                     var tn = inputTriangles[f].triangles.length;
-                    
                     //console.log("number of triangles in this files: " + tn);
                     c.change(0,0,0,255);
                     // Loop over the triangles
         	        for(var t=0; t<tn; t++){
-                        if (e == 300 && g == 338){
-                            console.log(t);
-                            console.log("closest: " + closest);
-                            console.log(" ");
-                        }
                         var vertex1 = inputTriangles[f].triangles[t][0];
         		        var vertex2 = inputTriangles[f].triangles[t][1];
         		        var vertex3 = inputTriangles[f].triangles[t][2];
@@ -506,12 +500,6 @@ function drawUnlitTriangles(context) {
                 	                inputTriangles[f].material.diffuse[2]*255,
                 	                255); // triangle diffuse color
                                     drawPixel(imagedata,e,g,c);
-                                    if (e == 300 && g == 338){
-                                        console.log("closest: " + closest);
-                                        console.log("distance: " + distance);  
-                                        console.log("triangle: " + vertexPos1);
-                                        console.log(" ");
-                                    }
                                 }
                             }//end if pixel intersects triangle
                         }//end if pixel intersects plane
