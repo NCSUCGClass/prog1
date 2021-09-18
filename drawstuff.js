@@ -283,13 +283,6 @@ function drawRandPixelsInInputTriangles(context) {
                     	var t1 = ((point[0]-v2[0]) * (v1[1] - v2[1]) - (v1[0] - v2[0]) * (point[1] - v2[1])) < 0.0;
                     	var t2 = ((point[0]-v3[0]) * (v2[1] - v3[1]) - (v2[0] - v3[0]) * (point[1] - v3[1])) < 0.0;
                     	var t3 = ((point[0]-v1[0]) * (v3[1] - v1[1]) - (v3[0] - v1[0]) * (point[1] - v1[1])) < 0.0;
-                    	
-                    	if((t1==t2)&&(t2==t3)){ // draw the pixel if inside the triangle
-                    		triangleTest = 1;
-                        }
-                        else if (alreadyDrawnPoints>500){
-                            triangleTest = 1; // don't try too hard if there is too many points
-                        }
                     }
             		drawPixel(imagedata,point[0],point[1],c);
                 	//console.log("color: ("+c.r+","+c.g+","+c.b+")");
