@@ -360,13 +360,37 @@ function dotProduct(vect_A, vect_B)
     // cross product of two vector array.
 function crossProduct(vect_A, vect_B)
     {
-        cross_P = [];
+        var cross_P = [];
         cross_P[0] = vect_A[1] * vect_B[2] - vect_A[2] * vect_B[1];
         cross_P[1] = vect_A[2] * vect_B[0] - vect_A[0] * vect_B[2];
         cross_P[2] = vect_A[0] * vect_B[1] - vect_A[1] * vect_B[0];
         return cross_P;
     }
     //“Program for dot product and cross product of two vectors,” GeeksforGeeks, 26-Apr-2021. [Online]. Available: https://www.geeksforgeeks.org/program-dot-product-cross-product-two-vector/. [Accessed: 18-Sep-2021]. 
+
+function subtractVectors(vect_A, vect_B){
+    var result = [vect_B[0]-vect_A[0],vect_B[1]-vect_A[1],vect_B[2]-vect_A[2]];
+    return normalizeVector(result);
+}
+
+function halfwayVector(vect_A,vect_B){
+    var result = [(vect_A[0]+vect_B[0])/2,(vect_A[1]+vect_B[1])/2,(vect_A[2]+vect_B[2])/2];
+    return normalizeVector(result);
+}
+
+function normalizeVector(vect_A){
+    var length = Math.sqrt(Math.pow(vect_A[0],2)+Math.pow(vect_A[1],2)+Math.pow(vect_A[2],2));
+    var result = [vect_A[0]/length,vect_A[1]/length,vect_A[2]/length]
+    return result;
+}
+
+function normalize(a){
+    if (a < 0){
+        return -a;
+    } else {
+        return a;
+    }
+}
 
 function drawUnlitTriangles(context) {
     var inputTriangles = getInputTriangles();
@@ -462,32 +486,6 @@ function drawUnlitTriangles(context) {
                             var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
                             var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
 
-
-                            //console.log("sign value 1: " + sign1);
-                            //console.log("sign value 2 " + sign2);
-                            //console.log("sign value 3 " + sign3);
-                            // if (e == 300 && g == 338){
-                            //     drawPixel(imagedata,e,g,pink);
-                            //     console.log("width: " + w);
-                            //     console.log("height:" + h);
-                            //     console.log("vertexPos1 " + vertexPos1);
-        		            //     console.log("vertexPos2 " + vertexPos2);
-        		            //     console.log("vertexPos3 " + vertexPos3);
-                            //     console.log("intersection: " + I);
-                            //     console.log("formula normal: " + NORM);
-                            //     console.log("function normal " + NORMf);
-                            //     console.log("d: " + d);
-                            //     console.log("d function: " + dfunction);
-                            //     console.log("check: " + check);
-                            //     console.log("NORMe: " + NORMe);
-                            //     console.log("distance: " + distance);
-                            //     console.log("sign value 1: " + sign1);
-                            //     console.log("sign function value 1: " + sign1function);
-                            //     console.log("sign value 2 " + sign2);
-                            //     console.log("sign function value 2: " + sign2function);
-                            //     console.log("sign value 3 " + sign3);
-                            //     console.log("sign function value 3: " + sign3function);
-                            // }
                             if (sign1 == sign2 && sign2 == sign3){
                                 if(distance <= closest && distance >= 1){
                                     closest = distance;
@@ -508,6 +506,145 @@ function drawUnlitTriangles(context) {
     } // end if triangle file found
 } // end draw unlit triangle
 
+function drawLitTriangles(context) {
+    var inputTriangles = getInputTriangles();
+    var w = context.canvas.width;
+    var h = context.canvas.height;
+    var imagedata = context.createImageData(w,h);
+    
+    if (inputTriangles != String.null) { 
+        var c = new Color(0,0,0,0); // init the triangle color
+        var black = new Color(0,0,0,255);
+        var n = inputTriangles.length; // the number of input files
+        var eye = [0.5,0.5,-0.5]; //eye location
+        var UL = [0,1,0];
+        var LL = [0,0,0];
+        var UR = [1,1,0];
+        var LR = [1,0,0];
+        var light = [1,1,1];
+        var lightloc = [-3,1,-0.5]
+
+        // Loop over the pixels
+        for (var e=0; e<w; e++) {
+            for (var g=0; g<h; g++) {
+                drawPixel(imagedata,e,g,black);
+                //calculate screen pixel's location in simulated space
+                var s = g/h;
+                var t = e/w;
+                var PLX = UL[0] + s*(LL[0]-UL[0]);
+                var PRX = UR[0] + s*(LR[0]-UR[0]);
+                var PX = PLX + t*(PRX-PLX);
+                
+                var PLY = UL[1] + s*(LL[1]-UL[1]);
+                var PRY = UR[1] + s*(LR[1]-UR[1]);
+                var PY = PLY + t*(PRY-PLY);
+                
+                var PLZ = UL[2] + s*(LL[2]-UL[2]);
+                var PRZ = UR[2] + s*(LR[2]-UR[2]);
+                var PZ = PLZ + t*(PRZ-PLZ);
+                
+                var P = [PX,PY,PZ];
+                //calculate the ray from the eye to P, R(t) = E + t(P-E)
+                
+                var D = [(PX-eye[0]),(PY-eye[1]),(PZ-eye[2])];
+                
+                //check if ray intersects any of the triangles
+                
+                //loop over input files
+                var closest = 10000000000000000000000000000000;
+                for (var f=0; f<n; f++) {
+                    var tn = inputTriangles[f].triangles.length;
+                    //console.log("number of triangles in this files: " + tn);
+                    c.change(0,0,0,255);
+                    // Loop over the triangles
+        	        for(var t=0; t<tn; t++){
+                        var vertex1 = inputTriangles[f].triangles[t][0];
+        		        var vertex2 = inputTriangles[f].triangles[t][1];
+        		        var vertex3 = inputTriangles[f].triangles[t][2];
+
+        		        var vertexPos1 = inputTriangles[f].vertices[vertex1];
+        		        var vertexPos2 = inputTriangles[f].vertices[vertex2];
+        		        var vertexPos3 = inputTriangles[f].vertices[vertex3];
+        		        //console.log("vertexPos1 " + vertexPos1);
+        		        //console.log("vertexPos2 " + vertexPos2);
+        		        //console.log("vertexPos3 " + vertexPos3);
+                        
+                        
+                        var CA = [(vertexPos1[0]-vertexPos2[0]),(vertexPos1[1]-vertexPos2[1]),(vertexPos1[2]-vertexPos2[2])];
+                        
+                        var BA = [(vertexPos3[0]-vertexPos2[0]),(vertexPos3[1]-vertexPos2[1]),(vertexPos3[2]-vertexPos2[2])];
+                        var CB = [(vertexPos1[0]-vertexPos3[0]),(vertexPos1[1]-vertexPos3[1]),(vertexPos1[2]-vertexPos3[2])];
+                        var AC = [(vertexPos2[0]-vertexPos1[0]),(vertexPos2[1]-vertexPos1[1]),(vertexPos2[2]-vertexPos1[2])];
+                        
+                        
+                        var NORM = [( BA[1] * CA[2] - BA[2] * CA[1]), (BA[2] * CA[0] - BA[0] * CA[2]), (BA[0] * CA[1] - BA[1] * CA[0])] ;
+
+                        var d = (NORM[0]*vertexPos2[0]) + (NORM[1]*vertexPos2[1]) + (NORM[2]*vertexPos2[2]);
+                        var check = (NORM[0]*D[0]) + (NORM[1]*D[1]) + (NORM[2]*D[2]);
+                        if (check != 0) {
+                            var NORMe = (NORM[0]*eye[0]) + (NORM[1]*eye[1]) + (NORM[2]*eye[2]);
+                            var distance = (d-NORMe)/check;
+                            var IX = eye[0] + D[0]*distance;
+                            var IY = eye[1] + D[1]*distance;
+                            var IZ = eye[2] + D[2]*distance;
+                            
+                            var I = [IX,IY,IZ];
+                            
+                            var IA = [(IX-vertexPos2[0]),(IY-vertexPos2[1]),(IZ-vertexPos2[2])];
+                            var IB = [(IX-vertexPos3[0]),(IY-vertexPos3[1]),(IZ-vertexPos3[2])];
+                            var IC = [(IX-vertexPos1[0]),(IY-vertexPos1[1]),(IZ-vertexPos1[2])];
+                            
+                            var NORM1 = [( IA[1] * BA[2] - IA[2] * BA[1]), (IA[2] * BA[0] - IA[0] * BA[2]), (IA[0] * BA[1] - IA[1] * BA[0])];
+                            var NORM2 = [( IB[1] * CB[2] - IB[2] * CB[1]), (IB[2] * CB[0] - IB[0] * CB[2]), (IB[0] * CB[1] - IB[1] * CB[0])];
+                            var NORM3 = [( IC[1] * AC[2] - IC[2] * AC[1]), (IC[2] * AC[0] - IC[0] * AC[2]), (IC[0] * AC[1] - IC[1] * AC[0])];
+                            
+                            var sign1 = Math.sign((NORM[0]*NORM1[0]) + (NORM[1]*NORM1[1]) + (NORM[2]*NORM1[2]));
+                            var sign2 = Math.sign((NORM[0]*NORM2[0]) + (NORM[1]*NORM2[1]) + (NORM[2]*NORM2[2]));
+                            var sign3 = Math.sign((NORM[0]*NORM3[0]) + (NORM[1]*NORM3[1]) + (NORM[2]*NORM3[2]));
+
+                            if (sign1 == sign2 && sign2 == sign3){
+                                if(distance <= closest && distance >= 1){
+                                    closest = distance;
+                                    NORM = normalizeVector(NORM);
+
+                                    var ambientred = (inputTriangles[f].material.ambient[0]*light[0]);
+                                    var diffusered = (inputTriangles[f].material.diffuse[0]*light[1]*normalize(dotProduct(NORM,subtractVectors(lightloc,I))));
+                                    var specularred = (inputTriangles[f].material.specular[0]*light[2]*Math.pow(normalize(dotProduct(NORM,halfwayVector(subtractVectors(eye,I),subtractVectors(lightloc,I)))),inputTriangles[f].material.n));
+
+                                    var ambientgreen = (inputTriangles[f].material.ambient[1]*light[0]);
+                                    var diffusegreen = (inputTriangles[f].material.diffuse[1]*light[1]*normalize(dotProduct(NORM,subtractVectors(lightloc,I))));
+                                    var speculargreen = (inputTriangles[f].material.specular[1]*light[2]*Math.pow(normalize(dotProduct(NORM,halfwayVector(subtractVectors(eye,I),subtractVectors(lightloc,I)))),inputTriangles[f].material.n));
+
+                                    var ambientblue = (inputTriangles[f].material.ambient[2]*light[0]);
+                                    var diffuseblue = (inputTriangles[f].material.diffuse[2]*light[1]*normalize(dotProduct(NORM,subtractVectors(lightloc,I))));
+                                    var specularblue = (inputTriangles[f].material.specular[2]*light[2]*Math.pow(normalize(dotProduct(NORM,halfwayVector(subtractVectors(eye,I),subtractVectors(lightloc,I)))),inputTriangles[f].material.n));
+
+
+                                    var red = ambientred + diffusered + specularred;
+                                    var green = ambientgreen + diffusegreen + speculargreen;
+                                    var blue = ambientblue + diffuseblue + specularblue;
+                                    // if (e == 256 && g == 256){
+                                    //     console.log("colors: " + red*255 + " " + green*255 + " " + blue*255);
+                                    //     console.log("red components: " + ambientred + " " + diffusered + " " + specularred)
+                                    //     console.log("green components: " + ambientgreen + " " + diffusegreen + " " + speculargreen)
+                                    //     console.log("blue components: " + ambientblue + " " + diffuseblue + " " + specularblue)
+                                    // }
+                                    c.change(
+            		                red*255,
+                	                green*255,
+                	                blue*255,
+                	                255); // triangle diffuse color
+                                    drawPixel(imagedata,e,g,c);
+                                }
+                            }//end if pixel intersects triangle
+                        }//end if pixel intersects plane
+                    }//end for triangles
+                }//end for files
+            }//end Y values
+        }//end X values 
+        context.putImageData(imagedata, 0, 0);
+    } // end if triangle file found
+} // end draw unlit triangle
 
 /* main -- here is where execution begins after window load */
 
@@ -533,7 +670,9 @@ function main() {
     //drawInputTrainglesUsingPaths(context);
     // shows how to read input file, but not how to draw pixels
     
-    drawUnlitTriangles(context);
-    // Draws unlit triangle (work in progress)
+    //drawUnlitTriangles(context);
+    // Draws unlit triangle 
+
+    drawLitTriangles(context);
     
 }
