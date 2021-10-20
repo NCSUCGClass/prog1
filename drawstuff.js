@@ -522,7 +522,7 @@ function drawLitTriangles(context) {
         var UR = [1,1,0];
         var LR = [1,0,0];
         var light = [1,1,1];
-        var lightloc = [-3,1,-0.5]
+        var lightloc = [-3,1,-0.5];
 
         // Loop over the pixels
         for (var e=0; e<w; e++) {
