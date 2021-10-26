@@ -623,6 +623,7 @@ function drawLitTriangles(context) {
                                     var red = ambientred + diffusered + specularred;
                                     var green = ambientgreen + diffusegreen + speculargreen;
                                     var blue = ambientblue + diffuseblue + specularblue;
+                                    console.log("colors: " + red*255 + " " + green*255 + " " + blue*255);
                                     // if (e == 256 && g == 256){
                                     //     console.log("colors: " + red*255 + " " + green*255 + " " + blue*255);
                                     //     console.log("red components: " + ambientred + " " + diffusered + " " + specularred)
