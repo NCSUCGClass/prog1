@@ -1,2 +1,2 @@
-# prog1-2022-solution
-This repo branch contains the solution for program 1 from cg class 2022 at nc state (ray tracing boxes).
+# prog1-2023-shell
+This repo branch contains the shell for program 1 from cg class 2023 at nc state (ray tracing ellipsoids).
