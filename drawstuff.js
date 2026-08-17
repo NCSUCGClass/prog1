@@ -473,7 +473,7 @@ function main() {
     //drawRandPixelsInInputEllipsoids(context);
       // shows how to draw pixels and read input file
       
-    //drawInputEllipsoidsUsingArcs(context);
+    drawInputEllipsoidsUsingArcs(context);
       // shows how to read input file, but not how to draw pixels
     
     //drawRandPixelsInInputTriangles(context);
@@ -482,7 +482,7 @@ function main() {
     //drawInputTrainglesUsingPaths(context);
       // shows how to read input file, but not how to draw pixels
     
-    drawRandPixelsInInputBoxes(context);
+    //drawRandPixelsInInputBoxes(context);
       // shows how to draw pixels and read input file
     
     //drawInputBoxesUsingPaths(context);
